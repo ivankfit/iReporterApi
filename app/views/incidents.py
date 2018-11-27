@@ -19,7 +19,14 @@ def postred_flags():
     crime={
           "id":len(crimes)+1,
           "created_on":datetime.datetime.utcnow(),
+          "created_by":1,
+          "crime_nature":data['crime_nature'],
+          "location":data['location'],
+          "status":data['status'],
+          "images":data['image'],
+          "video":data['image'],
           "comment":data['comment']
+
 
     }
     crimes.append(crime)
