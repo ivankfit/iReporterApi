@@ -62,7 +62,7 @@ def is_valid_user_request(newuser):
 
 
 def is_valid(email):
-    ###validating an email
+    ### helper for validating an email
 
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         return False
