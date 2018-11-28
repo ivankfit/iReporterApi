@@ -7,12 +7,12 @@ crimes=[]
 def index():
     return jsonify({'message':"welcome"}),200
 
-@incident.route('/red-flags',methods=['GET'])
+@incident.route('/api/v1/red-flags',methods=['GET'])
 def getred_flags():
         return jsonify({'data':crimes}),200
 
 
-@incident.route('/red-flags',methods=['POST'])
+@incident.route('/api/v1/red-flags',methods=['POST'])
 def postred_flags():
     data=request.get_json()
       #TODO VALIDATE
@@ -31,4 +31,12 @@ def postred_flags():
     }
     crimes.append(crime)
     return jsonify({"success":True,"crime":crime.get('id')}),201
+
+@incident.route('/api/v1/red-flags/<int:id>',methods=['DELETE'])
+def delete_red_flags(id):
+    #find the item by id
+    for crime in crimes:
+        if crime['id']==id:
+           crimes.remove(crime)
+    return jsonify({'Message': "Crime deleted"})
     
