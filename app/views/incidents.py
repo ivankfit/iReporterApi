@@ -17,8 +17,9 @@ def get_specific_red_flag(id):
       #find the item by id
       for crime in crimes:
             if crime['id'] == id:
-                  return jsonify({'message': 'crime found'})
-      return jsonify({'data' :crimes}),200
+                  return jsonify({'data' :crime}),200
+            return jsonify({'message': 'no crime found'}),404
+      
 
 
 @incident.route('/api/v1/red-flags',methods=['POST'])
@@ -44,11 +45,28 @@ def postred_flags():
 #####Editing aspecific flag
 @incident.route('/api/v1/red-flags/<int:id>',methods=['PUT'])
 def update_specific_red_flag(id):
-      if not incident:
-            return jsonify({'message': 'No crime found!'})
-      crimes.complete = True
-      return jsonify({'message': 'Incident item has been completed!'})
+      if not item_exists(id,crimes):
+            return jsonify({'msg':'item not found'}),404
+      #CREATE A NEW LIST OBJECT
+      data=request.get_json()
+            #TODO VALIDATE
+      crime={
+            "id":id,
+            "last_updated_on":datetime.datetime.utcnow(),
+            "created_by":1,
+            "crime_nature":data['crime_nature'],
+            "location":data['location'],
+            "status":data['status'],
+            "images":data['image'],
+            "video":data['image'],
+            "comment":data['comment']
 
+
+      }
+      for i in crimes:
+          if i['id']==id:
+             print('item to update '+str(i))
+      return jsonify({"msg":"updated"}),200
 
 @incident.route('/api/v1/red-flags/<int:id>',methods=['DELETE'])
 def delete_red_flags(id):
@@ -58,3 +76,9 @@ def delete_red_flags(id):
            crimes.remove(crime)
     return jsonify({'Message': "Crime deleted"})
     
+
+def item_exists(item_id,itemlist):
+      for item in itemlist:
+            if item['id']==item_id:
+                  return True
+      return False
