@@ -13,21 +13,23 @@ class TestsUsers(unittest.TestCase):
         #checks if a user can be created
         
         expecteduser_obj = {
-            "fullname": "ivan kfit",
+            "firstname": "ivan kfit",
+             "lastname": "ivan kfit",
+              "othernames": "ivan kfit",
             "username": "kfit",
             "phone_number": "0705749598",
             "email": "email000000@test.com",
-            "password": "passwod="
+            "is_admin":True
 
         }
         response = self.client.post(
             "api/v1/users",
             data=json.dumps(expecteduser_obj),
             content_type="application/json")
-        data = json.loads(response.data.decode())
+        results = json.loads(response.data.decode())
 
         self.assertEqual(
-            data['success'], True)
+            results['success'], True)
         self.assertEqual(response.status_code, 201)
 
     # def test_cannot_create_a_user_without_email(self):
