@@ -18,38 +18,38 @@ class TestsStart(unittest.TestCase):
         response = self.app.get('/api/v1/red-flags')
         self.assertEqual(response.status_code, 200)
 
-    # def test_redflag_not_json(self):
-    #     """ Test redflag content to be posted not in json format """
-    #     expectedreq = {
-    #         'incident_type': 'redflag/whistle blowing',
-    #         'comment_description': 'officer taking a bribe',
-    #         'status': 'under invesitagation',
-    #         'current_location': 'mulago,bukoto street',
-    #         'created': datetime.datetime.utcnow()
-    #     }
-    #     result = self.app.post(
-    #         '/api/v1/red-flags',
-    #         content_type = 'text/html',
-    #         data=json.dumps(expectedreq)
-    #     )
-    #     self.assertEqual(result.status_code,401)
-    #     self.assertIn('Content-type must be application/json',str(result.data))
-    # def test_create_user_request_not_json(self):
-    #     """ Test redflag content to be posted not in json format """
-    #     expectedreq = {
-    #          'incident_type': 'government intervention/broken bridge',
-    #         'comment_description': 'river rwizi bridge had broken down',
-    #         'status': 'ressolved',
-    #         'current_location': 'kashanyarazi, mbarara',
-    #         'created': datetime.datetime.utcnow()
-    #     }
-    #     result = self.app.post(
-    #         '/api/v1/users',
-    #         content_type = 'text/html',
-    #         data=json.dumps(expectedreq)
-    #     )
-    #     self.assertEqual(result.status_code,401)
-    #     self.assertIn('Content-type must be application/json',str(result.data))
+    def test_redflag_not_json(self):
+        """ Test redflag content to be posted not in json format """
+        expectedreq = {
+            'incident_type': 'redflag/whistle blowing',
+            'comment_description': 'officer taking a bribe',
+            'status': 'under invesitagation',
+            'current_location': 'mulago,bukoto street',
+            'created': 'Nov, 29, 2018 9:55AM'
+        }
+        result = self.app.post(
+            '/api/v1/red-flags',
+            content_type = 'text/html',
+            data=json.dumps(expectedreq)
+        )
+        self.assertEqual(result.status_code,500)
+       # self.assertIn('Content-type must be application/json',str(result.data))
+    def test_create_user_request_not_json(self):
+        """ Test redflag content to be posted not in json format """
+        expectedreq = {
+             'incident_type': 'government intervention/broken bridge',
+            'comment_description': 'river rwizi bridge had broken down',
+            'status': 'ressolved',
+            'current_location': 'kashanyarazi, mbarara',
+            'created': 'Nov 29 2018 : 11:04AM'
+        }
+        result = self.app.post(
+            '/api/v1/users',
+            content_type = 'text/html',
+            data=json.dumps(expectedreq)
+        )
+        self.assertEqual(result.status_code,401)
+        #self.assertIn('Content-type must be application/json',str(result.data))
 
 if __name__ == "__main__":
     unittest.main()
