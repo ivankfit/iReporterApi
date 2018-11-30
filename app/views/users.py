@@ -11,7 +11,7 @@ def getall_users():
 
     ####returns a list of all users
     if len(users) ==0:
-        return jsonify({"message": "No users yet", "count": len(users)}), 200
+        return jsonify({"msg": "No users yet", "count": len(users)}), 200
 
     return jsonify({"users": users, "count": len(users)}), 200
 
@@ -22,9 +22,12 @@ def create_user():
     if not request.content_type == 'application/json':
         return jsonify({"failed": "content-type must be application/json"}), 401
     request_data = request.get_json()
-
-    if not is_valid(request_data['email']):
-        return jsonify({"success": False, "message": "Email is badly formatted"}), 401
+    try:
+         if not is_valid(request_data['email']):
+            return jsonify({"success": False, "msg": "Email is badly formatted"}), 401
+    except KeyError as err:
+         return jsonify({"success": False, "msg": "Email is missing"}), 400
+   
     newuser = {
         "user_id": len(users) + 1,
         "firstname":request_data['firstname'],
@@ -43,21 +46,16 @@ def create_user():
 
     for user in users:
         if user['email'] == request_data['email']:
-            return jsonify({"success": False, "message": "Email is already taken"}), 409
+            return jsonify({"success": False, "msg": "Email is already taken"}), 409
         if user['username'] == request_data['username']:
-            return jsonify({"success": False, "message": "Username is already taken"}), 409
+            return jsonify({"success": False, "msg": "Username is already taken"}), 409
     users.append(newuser)
     return jsonify({"success": True, "user_id": newuser.get('user_id')}), 201
 
 
-
-
-
-def is_valid(email):
-    ### helper for validating an email
-    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-        return False
-    return True
+def is_valid(email): 
+    match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",email)
+    return match
 
 
 
