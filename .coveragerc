@@ -4,4 +4,6 @@ omit =
    tests/*
    app\views\__init__.py
    app\__init__.py   
+   /home/travis/virtualenv/
+
    
