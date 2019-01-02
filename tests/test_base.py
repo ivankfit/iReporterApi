@@ -12,6 +12,9 @@ class TestsStart(unittest.TestCase):
     def test_if_can_get_users(self):
         response = self.app.get('/api/v1/users')
         self.assertEqual(response.status_code, 200)
+    def test_if_can_get_welcome(self):
+        response = self.app.get('/')
+        self.assertEqual(response.status_code, 200)
 
 
     def test_if_can_get_redflags(self):
@@ -20,20 +23,24 @@ class TestsStart(unittest.TestCase):
 
     def test_redflag_not_json(self):
         """ Test redflag content to be posted not in json format """
-        expectedreq = {
-            'incident_type': 'redflag/whistle blowing',
-            'comment_description': 'officer taking a bribe',
-            'status': 'under invesitagation',
-            'current_location': 'mulago,bukoto street',
-            'created': 'Nov, 29, 2018 9:55AM'
+        expectedreq ={
+	
+        "comment":"he ran away",
+        "type":"Red_flag",
+        "location":"Mbarara",
+        "status":"drafted",
+        "image":"ivann",
+        "video":"vannnnn"
+
         }
         result = self.app.post(
             '/api/v1/red-flags',
             content_type = 'text/html',
             data=json.dumps(expectedreq)
         )
-        self.assertEqual(result.status_code,500)
-       # self.assertIn('Content-type must be application/json',str(result.data))
+        data=json.loads(result.data.decode())
+        self.assertEqual(result.status_code,401)
+        self.assertEqual(data['failed'],'content-type must be application/json')
     def test_create_user_request_not_json(self):
         """ Test redflag content to be posted not in json format """
         expectedreq = {
@@ -48,8 +55,20 @@ class TestsStart(unittest.TestCase):
             content_type = 'text/html',
             data=json.dumps(expectedreq)
         )
+        data=json.loads(result.data.decode())
         self.assertEqual(result.status_code,401)
-        #self.assertIn('Content-type must be application/json',str(result.data))
+        self.assertEqual(data['failed'],'content-type must be application/json')
+       
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_if_user_cant_delete_innexistent_flag(self):
+        res=self.app.delete('/api/v1/red-flags/1')
+        data=json.loads(res.data.decode())
+        self.assertEqual(res.status_code,404)
+        self.assertEqual(data['msg'],'item not found')
+    def test_if_user_cant_view_an_innexistent_flag(self):
+        res=self.app.delete('/api/v1/red-flags/1')
+        data=json.loads(res.data.decode())
+        self.assertEqual(res.status_code,404)
+        self.assertEqual(data['msg'],'item not found')
+
+    

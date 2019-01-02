@@ -1,1 +1,8 @@
-venv 
+venv/
+.pytest_cache
+.idea
+.vscode
+tests/__pycache__/test_base.cpython-37-PYTEST.pyc
+tests/__pycache__/test_users.cpython-37-PYTEST.pyc
+app/__pycache__/__init__.cpython-37.pyc
+app/views/__pycache__/incidents.cpython-37.pyc

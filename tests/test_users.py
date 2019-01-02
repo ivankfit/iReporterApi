@@ -15,7 +15,7 @@ class TestsUsers(unittest.TestCase):
         expecteduser_obj = {
             "firstname": "ivan kfit",
              "lastname": "ivan kfit",
-              "othernames": "ivan kfit",
+            "othernames": "ivan kfit",
             "username": "kfit",
             "phone_number": "0705749598",
             "email": "email000000@test.com",
@@ -32,123 +32,124 @@ class TestsUsers(unittest.TestCase):
             results['success'], True)
         self.assertEqual(response.status_code, 201)
 
-    # def test_cannot_create_a_user_without_email(self):
-    #     """
-    #     checks if cannot create a user who has no email
-    #     """
-    #     users = []
-    #     expecteduser_obj = {
-    #         "fullname": "ivan kfit",
-    #         "username": "kfit",
-    #         "phone_number": "0705749598",
-    #         "password": "passwod="
+    def test_cannot_create_a_user_without_email(self):
+        """
+        checks if cannot create a user who has no email
+        """
+        expecteduser_obj = {
+            "firstname": "ivan kfit",
+             "lastname": "ivan kfit",
+              "othernames": "ivan kfit",
+            "username": "kfit",
+            "phone_number": "0705749598",
+            "is_admin":True
 
-    #     }
-    #     users.append(expecteduser_obj)
-    #     user_obj = {
-    #         "fullname": "ivan kfit",
-    #         "username": "kfit",
-    #         "phone_number": "0705749598",
-    #         "password": "passwod="
+        }
+        response=self.client.post('/api/v1/users',data=json.dumps(expecteduser_obj),
+            content_type="application/json")
+        data = json.loads(response.data.decode())
+        self.assertEqual(data['msg'], 'Email is missing')
+        self.assertEqual(data['success'], False)
+        self.assertEqual(response.status_code, 400)
 
-    #     }
-    #     response = self.client.post(
-    #         "api/v1/users",
-    #         data=json.dumps(user_obj),
-    #         content_type="application/json")
-    #     data = json.loads(response.data.decode())
-    #     self.assertEqual(data['msg'], 'Bad request')
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(response.status_code, 400)
+    def test_user_cannot_have_someones_user_name(self):
+        users = []
+        expecteduser_obj = {
+            "firstname": "ivann kfit",
+             "lastname": "ivan kfitt",
+              "othernames": "ivann k",
+            "username": "kfit",
+            "phone_number": "0705749598",
+            "email": "email000000@test.com",
+            "is_admin":True
 
-    # def test_user_cannot_have_someones_user_name(self):
-    #     users = []
-    #     expecteduser_obj = {
-    #         "fullname": "ivan kfit",
-    #         "username": "kfit",
-    #         "phone_number": "0705749598",
-    #         "email": "email@test.com",
-    #         "password": "passwod="
+        }
+        users.append(expecteduser_obj)
+        user_obj = {
+            "firstname": "ivan kfit",
+             "lastname": "ivan kfit",
+            "username": "kfit",
+            "othernames":"hhhhhhhh",
+            "email":"kfitivn@gmail.com",
+            "phone_number": "0705749598",
+            "is_admin":True
 
-    #     }
-    #     users.append(expecteduser_obj)
-    #     user_obj = {
-    #         "fullname": "ivan kfit",
-    #         "username": "kfit",
-    #         "phone_number": "0705749598",
-    #         "email": "ivan@test.com",
-    #         "password": "yestpass"
+        }
+        response = self.client.post(
+            "api/v1/users",
+            data=json.dumps(user_obj),
+            content_type="application/json")
+        data2 = json.loads(response.data.decode())
+        self.assertEqual(data2['success'], False)
+        self.assertEqual(response.status_code, 409)
 
-    #     }
-    #     response = self.client.post(
-    #         "api/v1/users",
-    #         data=json.dumps(user_obj),
-    #         content_type="application/json")
-    #     data2 = json.loads(response.data.decode())
-    #     self.assertEqual(data2['msg'], 'Username is already taken')
-    #     self.assertEqual(data2['success'], False)
-    #     self.assertEqual(response.status_code, 401)
+    def test_user_cannot_have_someone_else_email_address(self):
+        usersList = []
+        expecteduser_obj = {
+            "firstname": "ivan kfit1",
+             "lastname": "ivan kfit2",
+              "othernames": "ivan kfit",
+            "username": "kfit1",
+            "phone_number": "0705749598",
+            "email": "email@test.com",
+            "is_admin":False
 
-    # def test_user_cannot_have_someone_else_email_address(self):
-    #     usersList = []
-    #     expecteduser_obj = {
-    #         "fullname": "ivan kfit",
-    #         "username": "kfit",
-    #         "phone_number": "0705749598",
-    #         "email": "ivan@test.com",
-    #         "password": "passwod="
+        }
+        self.client.post(
+            "api/v1/users",
+            data=json.dumps(expecteduser_obj),
+            content_type="application/json")
+        
+        user_obj2 = {
+           "firstname": "ivan kfit9",
+             "lastname": "ivan kfit9",
+            "username": "kfit9",
+            "email":"email@test.com",
+            "phone_number": "0705749598",
+            "is_admin":True,
+            "othernames":"my other"
 
-    #     }
-    #     usersList.append(expecteduser_obj)
-    #     user_obj2 = {
-    #         "fullname": "ivan kfit",
-    #         "username": "kfit",
-    #         "phone_number": "0705749598",
-    #         "email": "ivan@test.com",
-    #         "password": "yestpass"
+        }
+        response = self.client.post(
+            "api/v1/users",
+            data=json.dumps(user_obj2),
+            content_type="application/json")
+        results = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 409)
 
-    #     }
-    #     response = self.client.post(
-    #         "api/v1/users",
-    #         data=json.dumps(user_obj2),
-    #         content_type="application/json")
-    #     data2 = json.loads(response.data.decode())
-    #     self.assertEqual(data2['msg'], 'Username is already taken')
-    #     self.assertEqual(data2['success'], False)
-    #     self.assertEqual(response.status_code, 401)
+    def test_user_cannot_have_an_invalid_email(self):
+        """
+        tests if user supplies a valid email
+        """
+        user_obj = {
+            "firstname": "ivannn kfit",
+             "lastname": "ivanmm kfit",
+            "username": "kfit",
+            "email":"kfitivan123",
+            "phone_number": "0705749598",
+            "othernames":"my other",
+            "is_admin":True
 
-    # def test_user_cannot_have_an_invalid_email(self):
-    #     """
-    #     tests if user supplies a valid email
-    #     """
-    #     user_obj = {
-    #         "fullname": "ivan kfit",
-    #         "username": "kfit",
-    #         "phone_number": "0705749598",
-    #         "email": "est.com",
-    #         "password": "passwod="
+        }
+        response = self.client.post(
+            "api/v1/users",
+            data=json.dumps(user_obj),
+            content_type="application/json")
+        data = json.loads(response.data.decode())
+        self.assertEqual(data['success'], False)
+        self.assertEqual(response.status_code, 401)
 
-    #     }
-    #     response = self.client.post(
-    #         "api/v1/users",
-    #         data=json.dumps(user_obj),
-    #         content_type="application/json")
-    #     data = json.loads(response.data.decode())
-    #     self.assertEqual(data['msg'], 'Email is badly formatted')
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(response.status_code, 401)
-
-    # def test_get_a_no_users_message(self):
-    #     '''
-    #     tests if a user gets a readable no users message when users are not there
-    #     :return:
-    #     '''
-    #     response = self.client.get('api/v1/users', content_type='application/json')
-    #     data = json.loads(response.data.decode())
-    #     count = data['count']
-    #     if count == 0:
-    #         self.assertEqual(data['msg'], 'No users yet')
-    #     self.assertEqual(response.status, '200 OK')
+    def test_get_a_no_users_message(self):
+        '''
+        tests if a user gets a readable no users message when users are not there
+        :return:
+        '''
+        response = self.client.get('api/v1/users', content_type='application/json')
+        data = json.loads(response.data.decode())
+        count = data['count']
+        if count == 0:
+            self.assertEqual(data['msg'], 'No users yet')
+        self.assertEqual(response.status, '200 OK')
 
 if __name__ == "__main__":
     unittest.main()
