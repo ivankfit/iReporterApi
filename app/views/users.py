@@ -65,7 +65,7 @@ def promote_user(user_id):    #this promotes user ids from user to admin
     return jsonify({'message': 'Ther user has been promoted'})
 
 def is_valid(email): 
-    match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",email)
+    match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",email)
     return match
 
 
