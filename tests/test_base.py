@@ -41,6 +41,22 @@ class TestsStart(unittest.TestCase):
         data=json.loads(result.data.decode())
         self.assertEqual(result.status_code,401)
         self.assertEqual(data['failed'],'content-type must be application/json')
+    
+    def test_if_comment_is_not_submited(self):
+        expectedreq ={
+
+        "type":"Red_flag",
+        "location":"Mbarara",
+        "status":"draft",
+        "image":"image"
+
+        }
+        result = self.app.post('/api/v1/red-flags', content_type = 'multipart/form-data', 
+            data=json.dumps(expectedreq))
+        data=json.loads(result.data.decode())
+        self.assertEqual(result.status_code,400)
+        self.assertEqual(data['msg'],'comment missing! please supply in the comment')
+        
     def test_create_user_request_not_json(self):
         """ Test redflag content to be posted not in json format """
         expectedreq = {
