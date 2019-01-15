@@ -12,16 +12,16 @@ def getred_flags():
         return jsonify({'data':crimes}),200
 
   #getting a specific red flag
-@incident.route('/api/v1/red-flags<int:id>',methods=['GET'])
+@incident.route('/api/v1/red-flags/<int:id>',methods=['GET'])
 def get_specific_red_flag(id):
+
+      if not item_exists(id, incidents):
+            return jsonify({'msg':'item not found'}), 404
       #find the item by id
-      for crime in crimes:
-            if crime['id'] == id:
-                  return jsonify({'data' :crime}),200
-            return jsonify({'message': 'no item found'}),404
+      for incident in incidents:
+            if incident['id'] == id:
+                  return jsonify({'data' :incident}),200
       
-
-
 @incident.route('/api/v1/red-flags',methods=['POST'])
 def postred_flags():
     data=request.get_json()
