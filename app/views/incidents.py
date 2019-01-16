@@ -6,7 +6,7 @@ incidents=[]
 @incident.route('/',methods=['GET'])
 def index():
     return jsonify({'message':"welcome"}),200
-# Attach an story id for creating a red flag
+
 @incident.route('/api/v1/red-flags',methods=['POST'])
 def postred_flags():
     data=request.get_json()
@@ -34,22 +34,20 @@ def postred_flags():
     incidents.append(incident)
     return jsonify({"success":True,"incident":incident.get('id')}),201
 
-@incident.route('/api/v1/red-flags',methods=['GET']) #Attach an id to get all red flags
+@incident.route('/api/v1/red-flags',methods=['GET']) 
 def getred_flags():
         return jsonify({'data':incidents}),200
 
-  #getting a specific red flag and attach an id
 @incident.route('/api/v1/red-flags/<int:id>',methods=['GET'])
 def get_specific_red_flag(id):
 
       if not item_exists(id, incidents):
             return jsonify({'msg':'item not found'}), 404
-      #find the item by id
+     
       for incident in incidents:
             if incident['id'] == id:
                   return jsonify({'data' :incident}),200   
 
-#####Editing aspecific flag and attach an id
 @incident.route('/api/v1/red-flags/<int:id>',methods=['PUT'])
 def update_specific_red_flag(id):
       if not item_exists(id,incidents):
@@ -73,7 +71,6 @@ def update_specific_red_flag(id):
 
 @incident.route('/api/v1/red-flags/<int:id>',methods=['DELETE'])
 def delete_red_flags(id):
-    #find the item by id and attach id
     if not item_exists(id,incidents):
        return jsonify({'msg':'item not found'}),404
 
@@ -83,12 +80,11 @@ def delete_red_flags(id):
     return jsonify({ 'status': 200, 'Message': "item deleted"})
 
 @incident.route('/api/v1/red-flags/<int:id>/location', methods=['PATCH'])
-def edit_location_of_specific_redflag(id): #Attach the id
+def edit_location_of_specific_redflag(id):
       data=request.get_json()
       if not item_exists(id, incidents):
             return jsonify({'msg': 'item not found'}), 404
 
-            #TODO VALIDATE
       for i in incidents:
             if i['id'] == id:
                   i['location'] =data['location']
@@ -96,11 +92,10 @@ def edit_location_of_specific_redflag(id): #Attach the id
       
 
 @incident.route('/api/v1/red-flags/<int:id>/comment', methods=['PATCH'])
-def edit_comment_of_specific_redflag(id): #attach the id
+def edit_comment_of_specific_redflag(id): 
       if not item_exists(id, incidents):
             return jsonify({'msge': 'item not found'}), 404
       data=request.get_json()
-            #TODO VALIDATE
       for i in incidents:
             if i['id'] == id:
                   i['comment'] = data['comment']

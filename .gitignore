@@ -9,3 +9,6 @@ app/views/__pycache__/incidents.cpython-37.pyc
 app/views/__pycache__/incidents.cpython-37.pyc
 app/views/__pycache__/users.cpython-37.pyc
 tests/__pycache__/test_users.cpython-37-PYTEST.pyc
+app/views/__pycache__/incidents.cpython-37.pyc
+app/views/__pycache__/users.cpython-37.pyc
+app/views/__pycache__*/
