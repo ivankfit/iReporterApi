@@ -8,7 +8,7 @@ users = []
 
 @user.route('/api/v1/users', methods=['POST'])
 def create_user():
-    #### creates a new user
+    #### creates a new user and attaches user story id
     if not request.content_type == 'application/json':
         return jsonify({"failed": "content-type must be application/json"}), 401
     request_data = request.get_json()
@@ -17,6 +17,13 @@ def create_user():
             return jsonify({"success": False, "msg": "Email is badly formatted"}), 401
     except KeyError as err:
          return jsonify({"success": False, "msg": "Email is missing"}), 400
+    if not 'username' in request_data:
+        return jsonify({'msg': 'User must have a username'}), 400
+    if not 'firstname' in request_data:
+        return jsonify({'msg': 'firstname must be provided'}), 400
+    if not 'lastname' in request_data:
+        return jsonify({'msg': 'lastname must be provided'}), 400
+    
    
     newuser = {
         "user_id": len(users) + 1,
@@ -51,18 +58,6 @@ def getall_users():
 
     return jsonify({"users": users, "count": len(users)}), 200
 
-
-
-
-@user.route('/api/v1/users/<user_id>', methods=['PUT'])
-def promote_user(user_id):    #this promotes user ids from user to admin
-
-    if not user:
-        return jsonify({'message': 'No user found!'})
-
-    user.admin = True
-
-    return jsonify({'message': 'Ther user has been promoted'})
 
 def is_valid(email): 
     match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",email)
