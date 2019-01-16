@@ -8,7 +8,7 @@ users = []
 
 @user.route('/api/v1/users', methods=['POST'])
 def create_user():
-    #### creates a new user
+    #### creates a new user and attaches user story id
     if not request.content_type == 'application/json':
         return jsonify({"failed": "content-type must be application/json"}), 401
     request_data = request.get_json()
