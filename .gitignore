@@ -19,3 +19,6 @@ app/views/__pycache__/incidents.cpython-37.pyc
 app/views/__pycache__/users.cpython-37.pyc
 tests/__pycache__/test_base.cpython-37-PYTEST.pyc
 venv/Lib/site-packages/*
+venv/Lib/site-packages/pylint/__pycache__/__pkginfo__.cpython-37.pyc
+venv/Lib/site-packages/pylint/checkers/__pycache__/imports.cpython-37.pyc
+venv/Lib/site-packages/pylint/checkers/__pycache__/logging.cpython-37.pyc
