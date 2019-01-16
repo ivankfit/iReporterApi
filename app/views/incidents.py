@@ -49,7 +49,7 @@ def get_specific_red_flag(id):
             if incident['id'] == id:
                   return jsonify({'data' :incident}),200   
 
-#####Editing aspecific flag
+#####Editing aspecific flag and attach an id
 @incident.route('/api/v1/red-flags/<int:id>',methods=['PUT'])
 def update_specific_red_flag(id):
       if not item_exists(id,incidents):
