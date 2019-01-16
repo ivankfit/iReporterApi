@@ -7,8 +7,19 @@ import datetime
 class TestsStart(unittest.TestCase):
 
     def setUp(self):
-         self.app = app.test_client()
-        
+        self.app = app.test_client()
+    def test_if_user_cant_view_an_innexistent_flag(self):
+        res=self.app.delete('/api/v1/red-flags/1')
+        data=json.loads(res.data.decode())
+        self.assertEqual(res.status_code,404)
+        self.assertEqual(data['msg'],'item not found')
+
+    def test_if_user_cannot_edit_innexistent_comment(self):
+        res=self.app.patch('/api/v1/red-flags/1/comment')
+        data=json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['msg'], 'item not found')
+
     def test_if_can_get_users(self):
         response = self.app.get('/api/v1/users')
         self.assertEqual(response.status_code, 200)
@@ -74,25 +85,28 @@ class TestsStart(unittest.TestCase):
        
 
     def test_if_user_cant_delete_innexistent_flag(self):
-        res=self.app.delete('/api/v1/red-flags/1')
+        res=self.app.delete('/api/v1/red-flags/4')
         data=json.loads(res.data.decode())
         self.assertEqual(res.status_code,404)
-        self.assertEqual(data['msge1'],'item not found')
+        self.assertEqual(data['msg'],'item not found')
     def test_if_user_cant_view_an_innexistent_flag(self):
         res=self.app.delete('/api/v1/red-flags/1')
         data=json.loads(res.data.decode())
         self.assertEqual(res.status_code,404)
-        self.assertEqual(data['viewmsg'],'item not found')
+        
+        
+        self.assertIn('msg',data)
 
     def test_if_user_cannot_edit_innexistent_comment(self):
         res=self.app.patch('/api/v1/red-flags/1/comment')
         data=json.loads(res.data.decode())
         self.assertEqual(res.status_code, 404)
-        self.assertEqual(data['cmtmsge'], 'item not found')
+        self.assertEqual(data['msg'], 'item not found')
 
     def test_if_user_cannot_edit_innexistent_location(self):
         response=self.app.patch('/api/v1/red-flags/668/location')
-        data=response.data.decode()
+        data=json.loads(response.data.decode())
+        self.assertEqual(data['msg'], 'item not found')
        
 
 
@@ -111,6 +125,6 @@ class TestsStart(unittest.TestCase):
         )
         data=json.loads(result.data.decode())
         self.assertIn('incident',data)
-       
+        self.app.delete('/api/v1/red-flags/1')
 
     
