@@ -6,16 +6,6 @@ import re
 user = Blueprint('user', __name__)
 users = []
 
-@user.route('/api/v1/users', methods=['GET'])
-def getall_users():
-
-    ####returns a list of all users
-    if len(users) ==0:
-        return jsonify({"msg": "No users yet", "count": len(users)}), 200
-
-    return jsonify({"users": users, "count": len(users)}), 200
-
-
 @user.route('/api/v1/users', methods=['POST'])
 def create_user():
     #### creates a new user
@@ -27,6 +17,13 @@ def create_user():
             return jsonify({"success": False, "msg": "Email is badly formatted"}), 401
     except KeyError as err:
          return jsonify({"success": False, "msg": "Email is missing"}), 400
+    if not 'username' in request_data:
+        return jsonify({'msg': 'User must have a username'}), 400
+    if not 'firstname' in request_data:
+        return jsonify({'msg': 'firstname must be provided'}), 400
+    if not 'lastname' in request_data:
+        return jsonify({'msg': 'lastname must be provided'}), 400
+    
    
     newuser = {
         "user_id": len(users) + 1,
@@ -37,7 +34,7 @@ def create_user():
         "phone_number":request_data['phone_number'],
         "username":request_data['username'],
         "registered":datetime.datetime.utcnow(),
-        "is_admin":request_data['is_admin']
+        "is_admin":False
 
     }
     if len(users) == 0:
@@ -52,9 +49,19 @@ def create_user():
     users.append(newuser)
     return jsonify({"success": True, "user_id": newuser.get('user_id')}), 201
 
+@user.route('/api/v1/users', methods=['GET'])
+def getall_users():
+
+    ####returns a list of all users
+    if len(users) ==0:
+        return jsonify({"msg": "No users yet", "count": len(users)}), 200
+
+    return jsonify({"users": users, "count": len(users)}), 200
+
+
 
 def is_valid(email): 
-    match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",email)
+    match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",email)
     return match
 
 
