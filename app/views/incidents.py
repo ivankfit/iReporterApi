@@ -96,7 +96,7 @@ def edit_location_of_specific_redflag(id): #Attach the id
       
 
 @incident.route('/api/v1/red-flags/<int:id>/comment', methods=['PATCH'])
-def edit_comment_of_specific_redflag(id):
+def edit_comment_of_specific_redflag(id): #attach the id
       if not item_exists(id, incidents):
             return jsonify({'msge': 'item not found'}), 404
       data=request.get_json()
