@@ -77,11 +77,40 @@ class TestsStart(unittest.TestCase):
         res=self.app.delete('/api/v1/red-flags/1')
         data=json.loads(res.data.decode())
         self.assertEqual(res.status_code,404)
-        self.assertEqual(data['msg'],'item not found')
+        self.assertEqual(data['msge1'],'item not found')
     def test_if_user_cant_view_an_innexistent_flag(self):
         res=self.app.delete('/api/v1/red-flags/1')
         data=json.loads(res.data.decode())
         self.assertEqual(res.status_code,404)
-        self.assertEqual(data['msg'],'item not found')
+        self.assertEqual(data['viewmsg'],'item not found')
+
+    def test_if_user_cannot_edit_innexistent_comment(self):
+        res=self.app.patch('/api/v1/red-flags/1/comment')
+        data=json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['cmtmsge'], 'item not found')
+
+    def test_if_user_cannot_edit_innexistent_location(self):
+        response=self.app.patch('/api/v1/red-flags/668/location')
+        data=response.data.decode()
+       
+
+
+    def test_can_create_a_red_flag(self):
+        """ Tests if a user can create a redflag """
+        expectedreq = {
+             'type':'intervention',
+             'comment': 'river rwizi bridge had broken down',
+             'location': 'kashanyarazi, mbarara'
+            
+        }
+        result = self.app.post(
+            '/api/v1/red-flags',
+            content_type = 'application/json',
+            data=json.dumps(expectedreq)
+        )
+        data=json.loads(result.data.decode())
+        self.assertIn('incident',data)
+       
 
     
