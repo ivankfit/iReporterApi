@@ -81,6 +81,32 @@ def delete_red_flags(id):
         if incident['id']==id:
            incidents.remove(incident)
     return jsonify({ 'status': 200, 'Message': "item deleted"})
+
+@incident.route('/api/v1/red-flags/<int:id>/location', methods=['PATCH'])
+def edit_location_of_specific_redflag(id):
+      data=request.get_json()
+      if not item_exists(id, incidents):
+            return jsonify({'msg': 'item not found'}), 404
+
+            #TODO VALIDATE
+      for i in incidents:
+            if i['id'] == id:
+                  i['location'] =data['location']
+                  return jsonify({'msg': 'location updated'}), 200
+      
+
+@incident.route('/api/v1/red-flags/<int:id>/comment', methods=['PATCH'])
+def edit_comment_of_specific_redflag(id):
+      if not item_exists(id, incidents):
+            return jsonify({'msge': 'item not found'}), 404
+      data=request.get_json()
+            #TODO VALIDATE
+      for i in incidents:
+            if i['id'] == id:
+                  i['comment'] = data['comment']
+
+                  return jsonify({'msg': 'comment updated'}), 200
+
     
 
 def item_exists(item_id,itemlist):
