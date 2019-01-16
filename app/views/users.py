@@ -59,7 +59,6 @@ def getall_users():
     return jsonify({"users": users, "count": len(users)}), 200
 
 
-
 def is_valid(email): 
     match=re.search(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",email)
     return match

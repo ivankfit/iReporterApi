@@ -89,8 +89,8 @@ class TestsStart(unittest.TestCase):
         data=json.loads(res.data.decode())
         self.assertEqual(res.status_code,404)
         self.assertEqual(data['msg'],'item not found')
-    def test_if_user_cant_view_an_innexistent_flag(self):
-        res=self.app.delete('/api/v1/red-flags/1')
+    def test_if_user_cant_get_an_innexistent_flag(self):
+        res=self.app.get('/api/v1/red-flags/2')
         data=json.loads(res.data.decode())
         self.assertEqual(res.status_code,404)
         

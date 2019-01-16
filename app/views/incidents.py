@@ -1,5 +1,8 @@
 from flask import Flask,json,jsonify,Blueprint,request
+from flask import current_app as app
+import os
 import datetime
+from werkzeug import secure_filename
 
 incident=Blueprint('incident',__name__)
 incidents=[]
@@ -19,7 +22,7 @@ def postred_flags():
     if len(data['comment']) <5:
           return jsonify({'message': 'comment too short! please supply long text'}), 400  
     
-           
+       
     incident={
           "id":len(incidents)+1,
           "created_on":datetime.datetime.utcnow(),
@@ -28,8 +31,6 @@ def postred_flags():
           "location":data['location'],
           "status":'draft',
           "comment":data['comment']
-
-
     }
     incidents.append(incident)
     return jsonify({"success":True,"incident":incident.get('id')}),201
@@ -65,6 +66,7 @@ def update_specific_red_flag(id):
                   "comment":data['comment']
              }
                   i.update(incident_update)
+            i.update(incident)
                 
       return jsonify({"msg":"updated"}),200
 
@@ -76,7 +78,7 @@ def delete_red_flags(id):
     for incident in incidents:
         if incident['id']==id:
            incidents.remove(incident)
-    return jsonify({ 'status': 200, 'Message': "item deleted"})
+           return jsonify({ 'status': 200, 'Message': "item deleted"})
 
 @incident.route('/api/v1/red-flags/<int:id>/location', methods=['PATCH'])
 def edit_location_of_specific_redflag(id):
@@ -95,17 +97,12 @@ def edit_comment_of_specific_redflag(id):
       data=request.get_json()
       if not item_exists(id, incidents):
             return jsonify({'msg': 'item not found'}), 404
-
-
-
-      
       for i in incidents:
             if i['id'] == id:
                   i['comment'] = data['comment']
 
                   return jsonify({'msg': 'comment updated'}), 200
 
-    
 
 def item_exists(item_id,itemlist):
       for item in itemlist:
