@@ -6,7 +6,7 @@ incidents=[]
 @incident.route('/',methods=['GET'])
 def index():
     return jsonify({'message':"welcome"}),200
-
+# Attach an story id for creating a red flag
 @incident.route('/api/v1/red-flags',methods=['POST'])
 def postred_flags():
     data=request.get_json()
