@@ -28,9 +28,7 @@ class TestsStart(unittest.TestCase):
         "comment":"he ran away",
         "type":"Red_flag",
         "location":"Mbarara",
-        "status":"drafted",
-        "image":"ivann",
-        "video":"vannnnn"
+        "status":"drafted"
 
         }
         result = self.app.post(
@@ -47,11 +45,10 @@ class TestsStart(unittest.TestCase):
 
         "type":"Red_flag",
         "location":"Mbarara",
-        "status":"draft",
-        "image":"image"
+        "status":"draft"
 
         }
-        result = self.app.post('/api/v1/red-flags', content_type = 'multipart/form-data', 
+        result = self.app.post('/api/v1/red-flags', content_type = 'application/json', 
             data=json.dumps(expectedreq))
         data=json.loads(result.data.decode())
         self.assertEqual(result.status_code,400)
