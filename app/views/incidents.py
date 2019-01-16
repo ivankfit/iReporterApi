@@ -38,7 +38,7 @@ def postred_flags():
 def getred_flags():
         return jsonify({'data':incidents}),200
 
-  #getting a specific red flag
+  #getting a specific red flag and attach an id
 @incident.route('/api/v1/red-flags/<int:id>',methods=['GET'])
 def get_specific_red_flag(id):
 
