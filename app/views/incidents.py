@@ -73,7 +73,7 @@ def update_specific_red_flag(id):
 
 @incident.route('/api/v1/red-flags/<int:id>',methods=['DELETE'])
 def delete_red_flags(id):
-    #find the item by id
+    #find the item by id and attach id
     if not item_exists(id,incidents):
        return jsonify({'msg':'item not found'}),404
 
