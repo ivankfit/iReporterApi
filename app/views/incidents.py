@@ -91,24 +91,24 @@ def delete_red_flags(id):
 
 @incident.route('/api/v1/red-flags/<int:id>/location', methods=['PATCH'])
 def edit_location_of_specific_redflag(id):
-    data = request.get_json()
+    data=request.get_json()
     if not item_exists(id, incidents):
         return jsonify({'msg': 'item not found'}), 404
 
     for i in incidents:
         if i['id'] == id:
-            i['location'] = data['location']
+            i['location']=data['location']
             return jsonify({'msg': 'location updated'}), 200
 
 
 @incident.route('/api/v1/red-flags/<int:id>/comment', methods=['PATCH'])
 def edit_comment_of_specific_redflag(id):
-    data = request.get_json()
+    data=request.get_json()
     if not item_exists(id, incidents):
         return jsonify({'msg': 'item not found'}), 404
     for i in incidents:
         if i['id'] == id:
-            i['comment'] = data['comment']
+            i['comment']=data['comment']
 
             return jsonify({'msg': 'comment updated'}), 200
 
