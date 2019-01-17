@@ -132,7 +132,6 @@ class TestsUsers(unittest.TestCase):
         self.assertEqual(response.status_code, 409)
 
     def test_user_cannot_have_someone_else_email_address(self):
-        #usersList = []
         expecteduser_obj = {
             "firstname": "ivan kfit1",
             "lastname": "ivan kfit2",
