@@ -56,7 +56,7 @@ def create_user():
 
 
 @user.route('/api/v1/users', methods=['GET'])
-def getall_users()
+def getall_users():
   """returns a list of all users"""
    if len(users) == 0:
         return jsonify({"msg": "No users yet", "count": len(users)}), 200
