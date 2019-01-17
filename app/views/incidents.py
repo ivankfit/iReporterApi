@@ -1,6 +1,5 @@
 import datetime
 from flask import jsonify, Blueprint, request
-from werkzeug import secure_filename
 
 incident = Blueprint('incident', __name__)
 incidents = []
