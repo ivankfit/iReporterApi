@@ -6,3 +6,17 @@ tests/__pycache__/test_base.cpython-37-PYTEST.pyc
 tests/__pycache__/test_users.cpython-37-PYTEST.pyc
 app/__pycache__/__init__.cpython-37.pyc
 app/views/__pycache__/incidents.cpython-37.pyc
+<<<<<<< HEAD
+app/views/__pycache__/incidents.cpython-37.pyc
+app/views/__pycache__/users.cpython-37.pyc
+tests/__pycache__/test_users.cpython-37-PYTEST.pyc
+app/views/__pycache__/incidents.cpython-37.pyc
+app/views/__pycache__/users.cpython-37.pyc
+app/views/__pycache__*/
+=======
+.idea/workspace.xml
+venv/pip-selfcheck.json
+app/views/__pycache__/incidents.cpython-37.pyc
+app/views/__pycache__/users.cpython-37.pyc
+tests/__pycache__/test_base.cpython-37-PYTEST.pyc
+>>>>>>> develop
