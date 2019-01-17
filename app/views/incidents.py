@@ -74,7 +74,6 @@ def update_specific_red_flag(id):
                 "comment": data['comment']
             }
             i.update(incident_update)
-        i.update(incident)
 
     return jsonify({"msg": "updated"}), 200
 
