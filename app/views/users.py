@@ -17,7 +17,7 @@ def create_user():
     try:
         if not is_valid(request_data['email']):
             return jsonify(
-                {"success": False, "msg": "Email is badly formatted"}), 401
+                {"success": False, "msg": "Email is badly formatted"}), 400
     except KeyError as err :
         return jsonify({"success": False, "msg": "Email is missing"}), 400
     if 'username' not in request_data:
