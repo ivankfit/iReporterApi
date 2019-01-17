@@ -1,7 +1,5 @@
 import datetime
-from flask import Flask, json, jsonify, Blueprint, request
-from flask import current_app as app
-import os
+from flask import jsonify, Blueprint, request
 from werkzeug import secure_filename
 
 incident = Blueprint('incident', __name__)
@@ -49,28 +47,28 @@ def getred_flags():
     return jsonify({'data': incidents}), 200
 
 
-@incident.route('/api/v1/red-flags/<int:id>', methods=['GET'])
-def get_specific_red_flag(id):
+@incident.route('/api/v1/red-flags/<int:specific_id>', methods=['GET'])
+def get_specific_red_flag(specific_id):
     """ gets a specific redflag"""
-    if not item_exists(id, incidents):
+    if not item_exists(specific_id, incidents):
         return jsonify({'msg': 'item not found'}), 404
 
     for incident in incidents:
-        if incident['id'] == id:
+        if incident['id'] == specific_id:
             return jsonify({'data': incident}), 200
 
 
-@incident.route('/api/v1/red-flags/<int:id>', methods=['PUT'])
-def update_specific_red_flag(id):
+@incident.route('/api/v1/red-flags/<int:update_id>', methods=['PUT'])
+def update_specific_red_flag(update_id):
     """ updates a specific redflag"""
-    if not item_exists(id, incidents):
+    if not item_exists(update_id, incidents):
         return jsonify({'msg': 'item not found'}), 404
     # CREATE A NEW LIST OBJECT
     data = request.get_json()
     for i in incidents:
-        if i['id'] == id:
+        if i['id'] == update_id:
             incident_update = {
-                "id": id,
+                "id": update_id,
                 "last_updated_on": datetime.datetime.utcnow(),
                 "created_by": 1,
                 "type": data['type'],
@@ -83,39 +81,39 @@ def update_specific_red_flag(id):
     return jsonify({"msg": "updated"}), 200
 
 
-@incident.route('/api/v1/red-flags/<int:id>', methods=['DELETE'])
-def delete_red_flags(id):
+@incident.route('/api/v1/red-flags/<int:delete_id>', methods=['DELETE'])
+def delete_red_flags(delete_id):
     """deletes a redflag by id"""
-    if not item_exists(id, incidents):
+    if not item_exists(delete_id, incidents):
         return jsonify({'msg': 'item not found'}), 404
 
     for incident in incidents:
-        if incident['id'] == id:
+        if incident['id'] == delete_id:
             incidents.remove(incident)
             return jsonify({'status': 200, 'Message': "item deleted"})
 
 
-@incident.route('/api/v1/red-flags/<int:id>/location', methods=['PATCH'])
-def edit_location_of_specific_redflag(id):
+@incident.route('/api/v1/red-flags/<int:loc_id>/location', methods=['PATCH'])
+def edit_location_of_specific_redflag(loc_id):
     """edits the location of a red flag"""
     data = request.get_json()
-    if not item_exists(id, incidents):
+    if not item_exists(loc_id, incidents):
         return jsonify({'msg': 'item not found'}), 404
 
     for i in incidents:
-        if i['id'] == id:
+        if i['id'] == loc_id:
             i['location'] = data['location']
             return jsonify({'msg': 'location updated'}), 200
 
 
-@incident.route('/api/v1/red-flags/<int:id>/comment', methods=['PATCH'])
-def edit_comment_of_specific_redflag(id):
+@incident.route('/api/v1/red-flags/<int:com_id>/comment', methods=['PATCH'])
+def edit_comment_of_specific_redflag(com_id):
     """edits comment of s red flag by id"""
     data = request.get_json()
-    if not item_exists(id, incidents):
+    if not item_exists(com_id, incidents):
         return jsonify({'msg': 'item not found'}), 404
     for i in incidents:
-        if i['id'] == id:
+        if i['id'] == com_id:
             i['comment'] = data['comment']
 
             return jsonify({'msg': 'comment updated'}), 200
