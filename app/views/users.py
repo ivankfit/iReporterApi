@@ -1,6 +1,6 @@
+import datetime
 from flask import Flask, json, jsonify, Blueprint, request
 from app.views.incidents import incident
-import datetime
 import re
 
 user = Blueprint('user', __name__)
@@ -9,7 +9,7 @@ users = []
 
 @user.route('/api/v1/users', methods=['POST'])
 def create_user():
-    # creates a new user and attaches user story id
+    """creates a new user and attaches user story id"""
     if not request.content_type == 'application/json':
         return jsonify(
             {"failed": "content-type must be application/json"}), 401
@@ -56,16 +56,16 @@ def create_user():
 
 
 @user.route('/api/v1/users', methods=['GET'])
-def getall_users():
-
-    # returns a list of all users
-    if len(users) == 0:
+def getall_users()
+  """returns a list of all users"""
+   if len(users) == 0:
         return jsonify({"msg": "No users yet", "count": len(users)}), 200
 
     return jsonify({"users": users, "count": len(users)}), 200
 
 
 def is_valid(email):
+    """validates an email"""
     match = re.search(
         r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",
         email)
