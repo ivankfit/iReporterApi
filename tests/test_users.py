@@ -132,7 +132,7 @@ class TestsUsers(unittest.TestCase):
         self.assertEqual(response.status_code, 409)
 
     def test_user_cannot_have_someone_else_email_address(self):
-        usersList = []
+        #usersList = []
         expecteduser_obj = {
             "firstname": "ivan kfit1",
             "lastname": "ivan kfit2",
@@ -163,6 +163,7 @@ class TestsUsers(unittest.TestCase):
             data=json.dumps(user_obj2),
             content_type="application/json")
         results = json.loads(response.data.decode())
+        self.assertEqual(results['success'], False)
         self.assertEqual(response.status_code, 409)
 
     def test_user_cannot_have_an_invalid_email(self):
@@ -185,7 +186,7 @@ class TestsUsers(unittest.TestCase):
             content_type="application/json")
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], False)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 400)
 
     def test_get_a_no_users_message(self):
         '''
