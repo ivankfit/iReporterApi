@@ -20,5 +20,6 @@
 ## My useful links
 1. Heroku link https://iwillreport.herokuapp.com/
 2. Pivatal Tracker Board link https://www.pivotaltracker.com/n/projects/2228054
+3. Postman link that posts to heroku  https://iwillreport.herokuapp.com/api/v1/red-flags
 
 
