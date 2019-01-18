@@ -1,3 +1,10 @@
 venv/
  tests/__pycache__/test_base.cpython-37-PYTEST.pyc
         modified:   tests/__pycache__/test_users.cpython-37-PYTEST.pyc
+*.pyc
+venv/Lib/site-packages/pylint/checkers/__pycache__/stdlib.cpython-37.pyc
+venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/__pycache__/__init__.cpython-37.pyc
+venv/Lib/site-packages/pylint/checkers/__pycache__/format.cpython-37.pyc
+venv/Lib/site-packages/wrapt/__pycache__/__init__.cpython-37.pyc
+app/views/__pycache__/incidents.cpython-37.pyc
+venv/Lib/site-packages/pylint/__pycache__/__pkginfo__.cpython-37.pyc
