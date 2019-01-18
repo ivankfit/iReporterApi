@@ -18,7 +18,7 @@ def create_user():
         if not is_valid(request_data['email']):
             return jsonify(
                 {"success": False, "msg": "Email is badly formatted"}), 400
-    except KeyError as err :
+    except KeyError as err:
         return jsonify({"success": False, "msg": "Email is missing"}), 400
     if 'username' not in request_data:
         return jsonify({'msg': 'User must have a username'}), 400
@@ -26,7 +26,6 @@ def create_user():
         return jsonify({'msg': 'firstname must be provided'}), 400
     if 'lastname' not in request_data:
         return jsonify({'msg': 'lastname must be provided'}), 400
-    
 
     newuser = {
         "user_id": len(users) + 1,
@@ -58,11 +57,11 @@ def create_user():
 
 @user.route('/api/v1/users', methods=['GET'])
 def getall_users():
-  """returns a list of all users"""
-  if len(users) == 0:
-    return jsonify({"msg": "No users yet", "count": len(users)}), 200
+    """returns a list of all users"""
+    if len(users) == 0:
+        return jsonify({"msg": "No users yet", "count": len(users)}), 200
 
-  return jsonify({"users": users, "count": len(users)}), 200
+    return jsonify({"users": users, "count": len(users)}), 200
 
 
 def is_valid(email):
